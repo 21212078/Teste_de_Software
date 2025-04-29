@@ -1,0 +1,59 @@
+#include <stdio.h>
+#include "Zoologico.h"
+#include "minunit.h" // Certifique-se de incluir a biblioteca minunit
+
+// Prototipar função correta
+float calcular_preco(int idade, int quantidade);
+
+// Casos válidos
+MU_TEST(test_valido_crianca) {
+    mu_assert_double_eq(20.0, calcular_preco(8, 2));
+}
+
+MU_TEST(test_valido_adulto) {
+    mu_assert_double_eq(120.0, calcular_preco(35, 4));
+}
+
+MU_TEST(test_valido_idoso) {
+    mu_assert_double_eq(75.0, calcular_preco(70, 5));
+}
+
+MU_TEST(test_valido_limite_idade_crianca) {
+    mu_assert_double_eq(10.0, calcular_preco(12, 1));
+}
+
+// Casos inválidos
+MU_TEST(test_invalido_quantidade_zero) {
+    mu_assert_double_eq(-1.0, calcular_preco(25, 0));
+}
+
+MU_TEST(test_invalido_quantidade_maior_que_5) {
+    mu_assert_double_eq(-1.0, calcular_preco(25, 6));
+}
+
+MU_TEST(test_invalido_idade_negativa) {
+    mu_assert_double_eq(-2.0, calcular_preco(-5, 2));
+}
+
+MU_TEST(test_invalido_idade_exagerada) {
+    mu_assert_double_eq(-2.0, calcular_preco(130, 3));
+}
+
+// Suite de testes
+MU_TEST_SUITE(test_suite) {
+    MU_RUN_TEST(test_valido_crianca);
+    MU_RUN_TEST(test_valido_adulto);
+    MU_RUN_TEST(test_valido_idoso);
+    MU_RUN_TEST(test_valido_limite_idade_crianca);
+
+    MU_RUN_TEST(test_invalido_quantidade_zero);
+    MU_RUN_TEST(test_invalido_quantidade_maior_que_5);
+    MU_RUN_TEST(test_invalido_idade_negativa);
+    MU_RUN_TEST(test_invalido_idade_exagerada);
+}
+
+int main() {
+    MU_RUN_SUITE(test_suite);
+    MU_REPORT();
+    return MU_EXIT_CODE;
+}
